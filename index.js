@@ -1,9 +1,10 @@
 'use strict';
 
-var React       = require('react');
-var Interpolate = require('react-interpolate-component');
-var translator  = require('counterpart');
-var extend      = require('object-assign');
+var React         = require('react');
+var Interpolate   = require('react-interpolate-component');
+var shallowEquals = require('shallow-equals');
+var translator    = require('counterpart');
+var extend        = require('object-assign');
 
 var PropTypes = React.PropTypes;
 
@@ -62,6 +63,16 @@ var Translate = React.createClass({
     if (!this.props.locale) {
       this.getTranslator().offLocaleChange(this.localeChanged);
     }
+  },
+
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return !shallowEquals(this.props.locale, nextProps.locale) ||
+      !shallowEquals(this.props.count, nextProps.count) ||
+      !shallowEquals(this.props.content, nextProps.content, shallowEquals) ||
+      !shallowEquals(this.props.scope, nextProps.scope, shallowEquals) ||
+      !shallowEquals(this.props.attributes, nextProps.attributes, shallowEquals) ||
+      !shallowEquals(this.props.with, nextProps.with, shallowEquals) ||
+      !shallowEquals(this.state, nextState);
   },
 
   localeChanged: function(newLocale) {
