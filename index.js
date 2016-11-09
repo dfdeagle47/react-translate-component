@@ -2,6 +2,7 @@
 
 var React         = require('react');
 var Interpolate   = require('react-interpolate-component');
+var omit          = require('lodash.omit');
 var shallowEquals = require('shallow-equals');
 var translator    = require('counterpart');
 var extend        = require('object-assign');
@@ -66,12 +67,11 @@ var Translate = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps, nextState) {
-    return !shallowEquals(this.props.locale, nextProps.locale) ||
-      !shallowEquals(this.props.count, nextProps.count) ||
-      !shallowEquals(this.props.content, nextProps.content, shallowEquals) ||
+    return !shallowEquals(this.props.content, nextProps.content, shallowEquals) ||
       !shallowEquals(this.props.scope, nextProps.scope, shallowEquals) ||
       !shallowEquals(this.props.attributes, nextProps.attributes, shallowEquals) ||
       !shallowEquals(this.props.with, nextProps.with, shallowEquals) ||
+      !shallowEquals(omit(this.props, ['content', 'scope', 'attributes', 'with']), omit(nextProps, ['content', 'scope', 'attributes', 'with'])) ||
       !shallowEquals(this.state, nextState);
   },
 
