@@ -29,6 +29,7 @@
   "homepage": "https://github.com/martinandert/react-translate-component",
   "dependencies": {
     "object-assign": "^4.0.1",
+    "lodash.omit": "^3.1.0",
     "shallow-equals": "hughsk/shallow-equals"
   },
   "peerDependencies": {
