@@ -1,13 +1,13 @@
 'use strict';
 
 var React         = require('react');
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 var Interpolate   = require('react-interpolate-component');
 var omit          = require('lodash.omit');
 var shallowEquals = require('shallow-equals');
 var translator    = require('counterpart');
 var extend        = require('object-assign');
-
-var PropTypes = React.PropTypes;
 
 var translatorType = PropTypes.shape({
   getLocale:        PropTypes.func,
@@ -21,7 +21,7 @@ var keyType = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.string)
 ]);
 
-var Translate = React.createClass({
+var Translate = createReactClass({
   displayName: 'Translate',
 
   contextTypes: {
@@ -105,6 +105,7 @@ var Translate = React.createClass({
     delete props.scope;
     delete props.count;
     delete props.with;
+    delete props.fallback;
 
     if (props.attributes) {
       for (var name in props.attributes) {
@@ -172,7 +173,7 @@ function withTranslations(DecoratedComponent, translations) {
     translator.registerTranslations(locale, scopedTranslations);
   }
 
-  return React.createClass({
+  return createReactClass({
     displayName: displayName + 'WithTranslations',
 
     childContextTypes: {
